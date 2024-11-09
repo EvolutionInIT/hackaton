@@ -1,4 +1,6 @@
 <script setup>
+import DropFiles from "~/components/DropFiles.vue";
+
 const queryTemplate = {
   name: {
     key: "name",
@@ -114,46 +116,56 @@ const sendData = async () => {
 
 <template>
   <div class="flex">
-    <div v-for="({ form }, key) in queryTemplate" :key="key" class="p-3 m-1 border-1 border-dashed">
-      <div>{{ form?.title }}:</div>
+    <div class="w-1/8">
+      <DropFiles />
+    </div>
 
-      <template v-if="form?.type">
-        <div v-if="form.type === 'input'">
-          <input v-model="models[key]" :placeholder="form.placeholder" />
-        </div>
+    <div class="w-5/8">
+      <div class="flex">
+        <div v-for="({ form }, key) in queryTemplate" :key="key" class="p-3 m-1 border-1 border-dashed">
+          <div>{{ form?.title }}:</div>
 
-        <div v-if="form.type === 'checkbox'">
-          <label> <input type="checkbox" v-model="models[key]" :value="form.default" /> {{ form.label }} </label>
-        </div>
+          <template v-if="form?.type">
+            <div v-if="form.type === 'input'">
+              <input v-model="models[key]" :placeholder="form.placeholder" />
+            </div>
 
-        <div v-if="form.type === 'radio'">
-          <label v-for="option in form.options" :key="option">
-            <input type="radio" v-model="models[key]" :value="option" /> {{ option }}
-          </label>
-        </div>
+            <div v-if="form.type === 'checkbox'">
+              <label> <input type="checkbox" v-model="models[key]" :value="form.default" /> {{ form.label }} </label>
+            </div>
 
-        <div v-if="form.type === 'range'" class="flex">
-          <div>
-            <input type="range" v-model.number="models[key][0]" :min="form.range.min" :max="form.range.max" />
-            <div class="text-center">от {{ models[key][0] }}</div>
-          </div>
-          <div>
-            <input type="range" v-model.number="models[key][1]" :min="form.range.min" :max="form.range.max" />
-            <div class="text-center">до {{ models[key][1] }}</div>
-          </div>
-        </div>
+            <div v-if="form.type === 'radio'">
+              <label v-for="option in form.options" :key="option">
+                <input type="radio" v-model="models[key]" :value="option" /> {{ option }}
+              </label>
+            </div>
 
-        <div v-if="form.type === 'select'">
-          <select multiple v-model="models[key]">
-            <option v-for="option in form.options" :key="option" :value="option">{{ option }}</option>
-          </select>
+            <div v-if="form.type === 'range'" class="flex">
+              <div>
+                <input type="range" v-model.number="models[key][0]" :min="form.range.min" :max="form.range.max" />
+                <div class="text-center">от {{ models[key][0] }}</div>
+              </div>
+              <div>
+                <input type="range" v-model.number="models[key][1]" :min="form.range.min" :max="form.range.max" />
+                <div class="text-center">до {{ models[key][1] }}</div>
+              </div>
+            </div>
+
+            <div v-if="form.type === 'select'">
+              <select multiple v-model="models[key]">
+                <option v-for="option in form.options" :key="option" :value="option">{{ option }}</option>
+              </select>
+            </div>
+          </template>
         </div>
-      </template>
+      </div>
+
+      <div>
+        <button @click="sendData">Отправить данные</button>
+        <pre>{{ models }}</pre>
+      </div>
     </div>
   </div>
-
-  <button @click="sendData">Отправить данные</button>
-  <pre>{{ models }}</pre>
 </template>
 
 <!--
