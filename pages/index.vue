@@ -1,7 +1,7 @@
 <script setup>
 import DropFiles from "~/components/DropFiles.vue";
 
-const queryTemplate = {
+const settings = {
   name: {
     key: "name",
     type: "string",
@@ -90,7 +90,7 @@ const queryTemplate = {
 
 const models = ref({});
 
-for (const [key, { form }] of Object.entries(queryTemplate)) {
+for (const [key, { form }] of Object.entries(settings)) {
   if (form?.type === "range") models.value[key] = [form.range.min, form.range.max];
   else models.value[key] = form?.default;
 }
@@ -99,12 +99,28 @@ for (const [key, { form }] of Object.entries(queryTemplate)) {
 
 const sendData = async () => {
   try {
-    const response = await fetch("http://localhost:3000/backend", {
+    const response = await fetch("http://localhost/api/summary/analyze", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ data: { models: models.value, query: queryTemplate } }), // Обернули в объект с ключом data
+      body: JSON.stringify({ models: models.value, settings }), // Обернули в объект с ключом data
+    });
+    const data = await response.json();
+    console.log("Ответ от сервера:", data);
+  } catch (error) {
+    console.error("Ошибка при отправке данных:", error);
+  }
+};
+
+const saveCollection = async () => {
+  try {
+    const response = await fetch("http://localhost/api/summary/collection/save", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ settings }), // Обернули в объект с ключом data
     });
     const data = await response.json();
     console.log("Ответ от сервера:", data);
@@ -122,7 +138,7 @@ const sendData = async () => {
 
     <div class="w-5/8">
       <div class="flex">
-        <div v-for="({ form }, key) in queryTemplate" :key="key" class="p-3 m-1 border-1 border-dashed">
+        <div v-for="({ form }, key) in settings" :key="key" class="p-3 m-1 border-1 border-dashed">
           <div>{{ form?.title }}:</div>
 
           <template v-if="form?.type">
@@ -160,9 +176,14 @@ const sendData = async () => {
         </div>
       </div>
 
-      <div>
-        <button @click="sendData">Отправить данные</button>
-        <pre>{{ models }}</pre>
+      <div class="flex">
+        <div>
+          <button @click="sendData">Отправить данные</button>
+          <pre>{{ models }}</pre>
+        </div>
+        <div>
+          <button @click="saveCollection">Сохранить коллекцию</button>
+        </div>
       </div>
     </div>
   </div>
