@@ -4,7 +4,7 @@ const { data } = await $fetch("http://localhost/api/summary/collections");
 <template>
   <div class="flex justify-center mb-4">
     <NuxtLink
-      :to="{ name: 'collection-new' }"
+      :to="{ name: 'collection-new2' }"
       class="px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition duration-300"
     >
       Создать новую коллекцию

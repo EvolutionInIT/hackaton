@@ -17,7 +17,7 @@ for (const [key, { form }] of Object.entries(props.settings)) {
 <template>
   <div class="flex flex-wrap">
     <div
-      v-for="({ form }, key) in props.settings"
+      v-for="({ form, question, format }, key) in props.settings"
       :key="key"
       class="p-3 m-1 border-1 border-dashed"
     >
@@ -78,6 +78,9 @@ for (const [key, { form }] of Object.entries(props.settings)) {
             </option>
           </select>
         </div>
+
+        <p v-if="question">Вопрос к АИ: {{ question }}</p>
+        <p v-if="format">Формат: {{ format }}</p>
       </template>
     </div>
   </div>
