@@ -5,9 +5,16 @@ const { data } = await $fetch("http://localhost/api/summary/collections");
   <div class="flex justify-center mb-4">
     <NuxtLink
       :to="{ name: 'collection-new' }"
-      class="inline-block px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition duration-300"
+      class="px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition duration-300"
     >
       Создать новую коллекцию
+    </NuxtLink>
+
+    <NuxtLink
+      :to="{ name: 'upload' }"
+      class="px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition duration-300 ml-10"
+    >
+      Загрузить новые резюме
     </NuxtLink>
   </div>
 

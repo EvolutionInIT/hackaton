@@ -14,10 +14,13 @@ const handleFileDrop = async (event) => {
     }
 
     try {
-      const response = await fetch("http://localhost/files/upload", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "http://localhost/api/summary/files/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const data = await response.json();
       console.log("Файлы успешно загружены:", data);
     } catch (error) {
@@ -33,13 +36,13 @@ const handleDragOver = (event) => {
 
 <template>
   <div
-    class="flex items-center justify-center w-full"
+    class="flex items-center justify-center w-full max-h-screen"
     @drop="handleFileDrop"
     @dragover="handleDragOver"
   >
     <label
       for="dropzone-file"
-      class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+      class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 max-h-screen"
     >
       <div class="flex flex-col items-center justify-center pt-5 pb-6">
         <svg
