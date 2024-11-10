@@ -12,7 +12,8 @@
   "dependencies": {
     "nuxt": "^3.14.159",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
     "nuxt-windicss": "^3.0.1"
