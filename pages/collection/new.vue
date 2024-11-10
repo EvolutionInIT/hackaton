@@ -22,7 +22,7 @@ const debugAnalyze = ref("");
 
 const testCollection = async () => {
   debugAnalyze.value = "";
-  const response = await fetch("http://localhost/api/summary/analyze", {
+  const response = await fetch("http://localhost/api/summary/analyze/test", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
