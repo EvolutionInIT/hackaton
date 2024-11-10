@@ -4,11 +4,11 @@ const { data } = await useFetch(
 );
 console.log("data", data.value.data, useRoute().params.id);
 
-const settings = data.value.data.settings;
+const collection = data.value.data;
 
 const models = ref({});
 
-for (const [key, { form }] of Object.entries(settings)) {
+for (const [key, { form }] of Object.entries(collection.settings)) {
   if (form?.type === "range")
     models.value[key] = [form.range.min, form.range.max];
   else models.value[key] = form?.default;
@@ -34,10 +34,14 @@ const sendData = async () => {
 </script>
 
 <template>
+  <div class="m-5 ml-0 font-bold">
+    {{ collection.title }} id - {{ collection.id }}
+  </div>
+
   <div class="flex">
     <div class="flex">
       <div
-        v-for="({ form }, key) in settings"
+        v-for="({ form }, key) in collection.settings"
         :key="key"
         class="p-3 m-1 border-1 border-dashed"
       >
