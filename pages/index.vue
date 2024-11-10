@@ -17,9 +17,10 @@ const { data } = await $fetch("http://localhost/api/summary/collections");
       :key="collection.id"
       :to="{ name: 'collection-id', params: { id: collection.id } }"
       class="rounded-lg shadow-lg p-4 m-2 bg-white hover:bg-gray-100 transition duration-300 no-underline"
-      @click="navigateToCollection(collection.id)"
     >
-      <h3 class="text-lg font-semibold text-gray-800">{{ collection.title }}</h3>
+      <h3 class="text-lg font-semibold text-gray-800">
+        {{ collection.title }}
+      </h3>
       <p class="text-gray-600">id: {{ collection.id }}</p>
     </NuxtLink>
   </div>

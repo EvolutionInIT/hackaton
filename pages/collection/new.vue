@@ -1,4 +1,5 @@
 <script setup>
+import draggable from "vuedraggable";
 import ParserBlocks from "~/components/blocks/Parser.vue";
 
 const saveCollection = async () => {
@@ -10,12 +11,26 @@ const saveCollection = async () => {
     body: JSON.stringify({ settings, title: title.value }), // Обернули в объект с ключом data
   });
   const data = await response.json();
-  //console.log("Ответ от сервера:", data, data.data.id);
   if (data.data.id) {
     setTimeout(() => {
       navigateTo({ name: "collection-id", params: { id: data.data.id } });
     }, 500);
   }
+};
+
+const debugAnalyze = ref("");
+
+const testCollection = async () => {
+  debugAnalyze.value = "";
+  const response = await fetch("http://localhost/api/summary/analyze", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ settings }), // Обернули в объект с ключом data
+  });
+  const data = await response.json();
+  debugAnalyze.value = data.data;
 };
 
 const title = ref("Новое название коллекции");
@@ -108,7 +123,7 @@ const settings = {
   },
 };
 
-//:to="{ name: 'collection-new' }"
+const changeTask = (event, board_column_id) => {};
 </script>
 <template>
   <div class="justify-center mb-4">
@@ -124,12 +139,28 @@ const settings = {
       />
     </div>
 
-    <button
-      @click="saveCollection"
-      class="inline-block px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition duration-300"
-    >
-      Сохранить коллекцию
-    </button>
+    <div class="flex">
+      <div>
+        <button
+          @click="saveCollection"
+          class="px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition duration-300"
+        >
+          Сохранить коллекцию
+        </button>
+      </div>
+      <div class="ml-auto">
+        <button
+          @click="testCollection"
+          class="px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition duration-300"
+        >
+          Протестировать коллекцию!
+        </button>
+
+        <pre>
+        {{ debugAnalyze }}
+        </pre>
+      </div>
+    </div>
   </div>
 
   <div class="flex">
@@ -150,4 +181,29 @@ const settings = {
       </div>
     </div>
   </div>
+
+  <!-- <div class="flex">
+    <draggable
+      class="space-y-4 min-h-screen"
+      group="tasks"
+      item-key="board_column_id"
+      ghost-class="ghost"
+      :force-fallback="true"
+      @change="(event) => changeTask(event, board_column_id)"
+    >
+      <template #item="{ element }"> 2</template>
+    </draggable>
+
+    <draggable
+      class="space-y-4 min-h-screen"
+      v-model="settings"
+      group="tasks"
+      item-key="board_column_id"
+      ghost-class="ghost"
+      :force-fallback="true"
+      @change="(event) => changeTask(event, board_column_id)"
+    >
+      <template #item="{ element }"> 1</template>
+    </draggable>
+  </div> -->
 </template>
